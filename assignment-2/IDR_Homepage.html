@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Institute of Digital Risk — Train. Deploy. Innovate.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange:       #FF6B1A;
+  --orange-dark:  #CC4A00;
+  --orange-light: #FF8C42;
+  --orange-glow:  rgba(255,107,26,0.15);
+  --orange-dim:   rgba(255,107,26,0.06);
+  --black:        #080808;
+  --surface:      #0F0F0F;
+  --surface2:     #161616;
+  --surface3:     #1E1E1E;
+  --border:       #222222;
+  --border-light: #2E2E2E;
+  --text:         #E2E2E2;
+  --text-muted:   #666666;
+  --text-dim:     #444444;
+  --white:        #FFFFFF;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Barlow', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+  --nav-h:        64px;
+  --ease:         cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: -48px;
+  left: 16px;
+  z-index: 2000;
+  background: var(--orange);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 14px;
+  border: 1px solid var(--orange-light);
+  transition: top 0.2s var(--ease);
+}
+.skip-link:focus-visible { top: 12px; }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════ */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s var(--ease), height 0.2s var(--ease), background 0.2s;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(255,107,26,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.12s var(--ease);
+}
+.cursor.hover { width: 4px; height: 4px; }
+.cursor-ring.hover { width: 48px; height: 48px; border-color: var(--orange); }
+
+/* ═══════════════════════════════════════
+   STICKY NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  transition: border-color 0.3s;
+}
+
+nav.scrolled { border-bottom-color: var(--border-light); }
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.nav-logo svg { flex-shrink: 0; }
+
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nav-logo-idr {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--white);
+  line-height: 1;
+}
+
+.nav-logo-full {
+  font-size: 8.5px;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: var(--orange);
+  transition: width 0.25s var(--ease);
+}
+
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  background: var(--orange) !important;
+  color: var(--black) !important;
+  padding: 8px 20px;
+  font-weight: 600 !important;
+  letter-spacing: 2px !important;
+  transition: background 0.2s, transform 0.15s !important;
+}
+.nav-cta:hover { background: var(--orange-light) !important; transform: translateY(-1px); }
+.nav-cta::after { display: none !important; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: transparent;
+  border: 0;
+}
+.hamburger span {
+  width: 24px; height: 1.5px;
+  background: var(--text);
+  display: block;
+  transition: all 0.3s;
+}
+
+/* Mobile nav */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(8,8,8,0.98);
+  padding: 32px 48px;
+  border-bottom: 1px solid var(--border);
+  z-index: 999;
+  flex-direction: column;
+  gap: 24px;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-nav a:hover { color: var(--orange); }
+
+/* ═══════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════ */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 80px) 48px 80px;
+  overflow: hidden;
+}
+
+/* Network grid background */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* Radial glow */
+.hero-glow {
+  position: absolute;
+  top: 20%; right: 10%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,107,26,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) 0.2s forwards;
+}
+
+.hero-eyebrow-line {
+  width: 32px; height: 1px;
+  background: var(--orange);
+}
+
+.hero-eyebrow span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+}
+
+h1.hero-headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(42px, 5.5vw, 78px);
+  line-height: 1.0;
+  letter-spacing: -0.5px;
+  color: var(--white);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.35s forwards;
+}
+
+h1.hero-headline .accent { color: var(--orange); }
+h1.hero-headline .outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.5s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.65s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--orange);
+  color: var(--black);
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s var(--ease), box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--ease);
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,107,26,0.3); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--text);
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-ghost:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-2px); }
+
+/* Hero 3D cube */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 1.2s var(--ease) 0.8s forwards;
+}
+
+#cube-canvas {
+  width: 380px;
+  height: 380px;
+}
+
+/* Hero stat bar */
+.hero-stats {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 1s forwards;
+}
+
+.stat-item {
+  padding: 28px 0 0;
+  border-right: 1px solid var(--border);
+  padding-right: 32px;
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -1px;
+  color: var(--white);
+  line-height: 1;
+}
+.stat-num span { color: var(--orange); }
+.stat-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ═══════════════════════════════════════
+   SECTION SHARED STYLES
+═══════════════════════════════════════ */
+section {
+  padding: 100px 48px;
+  max-width: 100%;
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.section-eyebrow-line { width: 28px; height: 1px; background: var(--orange); }
+.section-eyebrow span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+}
+
+h2.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 4vw, 54px);
+  letter-spacing: -0.3px;
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+h2.section-title .accent { color: var(--orange); }
+h2.section-title .outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+  color: transparent;
+}
+
+.section-lead {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 580px;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════════════════════════
+   ABOUT SECTION
+═══════════════════════════════════════ */
+#about {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-left {}
+
+.about-right {
+  padding-top: 8px;
+}
+
+.about-body {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.about-body strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.tag {
+  padding: 6px 14px;
+  border: 1px solid var(--border-light);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s;
+}
+.tag:hover { border-color: var(--orange); color: var(--orange); }
+
+.about-feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.about-feature-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.about-feature-item:first-child { border-top: 1px solid var(--border); }
+
+.feature-icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--orange);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.feature-content h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.feature-content p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════
+   SERVICE PILLARS
+═══════════════════════════════════════ */
+#services {
+  background: var(--black);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+}
+
+.service-card {
+  background: var(--surface);
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  cursor: default;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.service-card:hover { background: var(--surface2); }
+.service-card:hover::before { background: var(--orange); }
+
+.service-card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+}
+
+.service-card-icon {
+  width: 52px; height: 52px;
+  margin-bottom: 24px;
+  color: var(--orange);
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.service-card-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.service-card p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.service-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.service-tag {
+  padding: 4px 10px;
+  background: var(--surface3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+}
+
+.service-card:hover .service-tag {
+  border-color: var(--border-light);
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════
+   PIPELINE / MODEL
+═══════════════════════════════════════ */
+#pipeline {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.pipeline-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 72px;
+  align-items: end;
+}
+
+.pipeline-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  position: relative;
+  gap: 0;
+}
+
+/* Connecting line behind steps */
+.pipeline-steps::before {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: calc(12.5% + 16px);
+  right: calc(12.5% + 16px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--orange), var(--orange-dark), var(--orange), var(--orange-dark));
+  z-index: 0;
+}
+
+.pipeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 0 16px;
+  z-index: 1;
+}
+
+.step-circle {
+  width: 60px; height: 60px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  margin-bottom: 20px;
+  position: relative;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.pipeline-step:hover .step-circle {
+  background: var(--orange);
+  box-shadow: 0 0 32px rgba(255,107,26,0.3);
+}
+
+.pipeline-step:hover .step-circle svg { color: var(--black); }
+
+.step-circle svg {
+  width: 22px; height: 22px;
+  color: var(--orange);
+  transition: color 0.3s;
+}
+
+.step-num {
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 18px; height: 18px;
+  background: var(--orange);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--black);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.step-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 140px;
+}
+
+/* Arrow between steps */
+.pipeline-arrow {
+  position: absolute;
+  top: 22px;
+  right: -12px;
+  color: var(--orange);
+  font-size: 14px;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════
+   COMMUNITY SECTION
+═══════════════════════════════════════ */
+#community {
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.community-bg-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(80px, 12vw, 180px);
+  letter-spacing: -4px;
+  color: rgba(255,107,26,0.03);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.community-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+.community-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.community-card {
+  background: var(--surface);
+  padding: 28px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  border-left: 3px solid transparent;
+  transition: border-color 0.3s, background 0.3s;
+}
+.community-card:hover { border-left-color: var(--orange); background: var(--surface2); }
+
+.community-card-icon {
+  width: 40px; height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orange);
+}
+
+.community-card h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.community-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+.community-text {}
+
+.community-quote {
+  border-left: 3px solid var(--orange);
+  padding: 24px 28px;
+  background: var(--surface);
+  margin-top: 32px;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+}
+.community-quote cite {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--orange);
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   PARTNER / TRUST BAR
+═══════════════════════════════════════ */
+#trust {
+  padding: 60px 48px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.trust-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.trust-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.trust-divider { width: 1px; height: 32px; background: var(--border-light); }
+
+.trust-logos {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.trust-logo-item {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+  padding-left: 16px;
+}
+.trust-logo-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 6px; height: 6px;
+  background: var(--border-light);
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.trust-logo-item:hover { color: var(--text-muted); }
+.trust-logo-item:hover::before { background: var(--orange); }
+
+/* ═══════════════════════════════════════
+   CONTACT / CTA SECTION
+═══════════════════════════════════════ */
+#contact {
+  background: var(--black);
+  padding: 100px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-glow {
+  position: absolute;
+  bottom: -100px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(255,107,26,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.contact-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-left {}
+
+.contact-left .section-lead {
+  margin-bottom: 40px;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.contact-detail:first-of-type { border-top: 1px solid var(--border); }
+.contact-detail-icon { color: var(--orange); flex-shrink: 0; }
+.contact-detail-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.contact-detail-value {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* Contact form */
+.contact-form {
+  background: var(--surface);
+  padding: 44px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.contact-form::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60px; height: 3px;
+  background: var(--orange);
+}
+
+.form-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--orange);
+  background: var(--surface3);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.6;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-submit {
+  width: 100%;
+  background: var(--orange);
+  color: var(--black);
+  border: none;
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.form-submit:hover { background: var(--orange-light); transform: translateY(-1px); }
+
+.form-note {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 12px;
+  letter-spacing: 0.5px;
+}
+
+/* Success message */
+.form-success {
+  display: none;
+  padding: 16px 20px;
+  background: rgba(255,107,26,0.08);
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
+.field-error {
+  display: none;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #ff9a66;
+  text-transform: uppercase;
+}
+
+.input-invalid {
+  border-color: #ff9a66 !important;
+  background: rgba(255,107,26,0.08) !important;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 48px 48px 32px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.footer-brand {}
+
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  text-decoration: none;
+}
+
+.footer-brand-idr {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--white);
+}
+
+.footer-tagline {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.footer-col h5 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--orange); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+}
+
+.footer-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+.footer-badge span { color: var(--orange); }
+
+/* ═══════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  nav { padding: 0 32px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  #hero { padding: calc(var(--nav-h) + 60px) 32px 60px; }
+  .hero-content { grid-template-columns: 1fr; gap: 48px; }
+  .hero-visual { display: none; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+
+  .about-grid,
+  .community-grid,
+  .contact-grid,
+  .pipeline-header { grid-template-columns: 1fr; gap: 48px; }
+
+  .services-grid { grid-template-columns: 1fr; gap: 2px; }
+  .pipeline-steps { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .pipeline-steps::before { display: none; }
+
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  section { padding: 72px 32px; }
+}
+
+@media (max-width: 600px) {
+  nav { padding: 0 20px; }
+  .mobile-nav { padding: 24px 20px; }
+
+  #hero { padding: calc(var(--nav-h) + 40px) 20px 40px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+
+  h1.hero-headline { font-size: 38px; }
+  h2.section-title { font-size: 30px; }
+
+  .pipeline-steps { grid-template-columns: 1fr; }
+
+  .footer-top { grid-template-columns: 1fr; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  section { padding: 56px 20px; }
+  #trust { padding: 40px 20px; }
+  #contact { padding: 72px 20px; }
+  footer { padding: 40px 20px 24px; }
+
+  .contact-form { padding: 28px 20px; }
+
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ═══════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="36" height="36">
+      <rect width="60" height="60" fill="#0A0A0A" rx="6"/>
+      <polygon points="30,9 45,17 30,25 15,17" fill="#FF6B1A"/>
+      <polygon points="15,17 30,25 30,42 15,34" fill="#CC4A00"/>
+      <polygon points="30,25 45,17 45,34 30,42" fill="#FF8C42"/>
+      <polygon points="45,17 53,12 50,23 45,34" fill="none" stroke="#FF6B1A" stroke-width="1" stroke-dasharray="2.5,2" opacity="0.7"/>
+      <polygon points="50,11 55,14 52,9" fill="#FF6B1A" opacity="0.95"/>
+    </svg>
+    <div class="nav-logo-text">
+      <div class="nav-logo-idr">IDR</div>
+      <div class="nav-logo-full">Institute of Digital Risk</div>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pipeline">Model</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#contact" class="nav-cta">Register Interest</a></li>
+  </ul>
+
+  <button type="button" class="hamburger" id="hamburger" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav" aria-hidden="true">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#pipeline" onclick="toggleMenu()">Our Model</a>
+  <a href="#community" onclick="toggleMenu()">Community</a>
+  <a href="#contact" onclick="toggleMenu()">Register Interest</a>
+</div>
+
+<!-- ═══════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-glow"></div>
+
+  <div style="max-width:1200px; margin:0 auto; width:100%;">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span>Industry-Led · UK University Partnership</span>
+        </div>
+        <h1 class="hero-headline">
+          Advancing the<br>
+          Future of <span class="accent">Digital</span><br>
+          <span class="outline">Risk.</span>
+        </h1>
+        <p class="hero-sub">
+          IDR trains and deploys the next generation of digital risk practitioners — combining rigorous academic collaboration with real-world industry projects in high-consequence environments.
+        </p>
+        <div class="hero-actions">
+          <a href="#services" class="btn-primary">
+            Explore Programs
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="btn-ghost">Hire Talent</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <canvas id="cube-canvas" width="380" height="380"></canvas>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">500<span>+</span></div>
+        <div class="stat-label">Practitioners Deployed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3<span>×</span></div>
+        <div class="stat-label">UK University Partners</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">ISO<span>/</span>NIST</div>
+        <div class="stat-label">Framework Expertise</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24<span>/</span>7</div>
+        <div class="stat-label">Risk Intelligence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     ABOUT
+═══════════════════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="section-eyebrow">
+          <div class="section-eyebrow-line"></div>
+          <span>About IDR</span>
+        </div>
+        <h2 class="section-title">Where Academic<br>Insight Meets <span class="accent">Industry</span><br><span class="outline">Practice.</span></h2>
+
+        <div class="about-tags">
+          <span class="tag">Digital Risk</span>
+          <span class="tag">Cyber Security</span>
+          <span class="tag">AI Governance</span>
+          <span class="tag">NIST</span>
+          <span class="tag">ISO 27001</span>
+          <span class="tag">NIS2</span>
+          <span class="tag">Financial Services</span>
+        </div>
+      </div>
+
+      <div class="about-right reveal reveal-delay-2">
+        <p class="about-body">
+          The Institute of Digital Risk is an <strong>industry-led training and deployment institute</strong> focused on digital, cyber, and technology risk roles in regulated, high-consequence environments. We exist at the intersection of academic rigour and operational reality — equipping practitioners with skills that matter from day one.
+        </p>
+        <p class="about-body">
+          Through our <strong>UK university partnership</strong>, IDR bridges the gap between theoretical frameworks and the real-world complexity of securing critical infrastructure, financial systems, and emerging AI deployments. Our cohorts don't just graduate — they deploy.
+        </p>
+
+        <ul class="about-feature-list">
+          <li class="about-feature-item">
+            <div class="feature-icon">01</div>
+            <div class="feature-content">
+              <h4>Academic Foundation</h4>
+              <p>Curriculum co-designed with UK university faculty, grounded in current research and evolving threat landscapes.</p>
+            </div>
+          </li>
+          <li class="about-feature-item">
+            <div class="feature-icon">02</div>
+            <div class="feature-content">
+              <h4>Industry Deployment</h4>
+              <p>Direct pathways into financial services, critical infrastructure, and regulated technology environments.</p>
+            </div>
+          </li>
+          <li class="about-feature-item">
+            <div class="feature-icon">03</div>
+            <div class="feature-content">
+              <h4>Live Project Work</h4>
+              <p>Real organisational challenges, not case studies — practitioners build portfolios on actual risk programmes.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SERVICE PILLARS
+═══════════════════════════════════ -->
+<section id="services">
+  <div class="section-inner">
+    <div class="reveal" style="max-width:560px;">
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line"></div>
+        <span>Service Pillars</span>
+      </div>
+      <h2 class="section-title">Three Pillars.<br>One <span class="accent">Unified</span> <span class="outline">Mission.</span></h2>
+    </div>
+
+    <div class="services-grid">
+      <!-- Card 1: Academy -->
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-card-num">01</div>
+        <div class="service-card-icon">
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="50" height="50" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+            <path d="M26 10L42 19V33L26 42L10 33V19L26 10Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M26 18L34 22.5V31.5L26 36L18 31.5V22.5L26 18Z" fill="currentColor" opacity="0.15"/>
+            <path d="M26 18L34 22.5V31.5L26 36L18 31.5V22.5L26 18Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="26" cy="26" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Academy</h3>
+        <div class="service-card-sub">Training & Bootcamps</div>
+        <p>Structured programmes for students and professionals seeking to build or advance expertise in digital risk, cybersecurity, and technology governance. From intensive bootcamps to modular upskilling pathways.</p>
+        <div class="service-card-tags">
+          <span class="service-tag">Bootcamps</span>
+          <span class="service-tag">Certifications</span>
+          <span class="service-tag">Mentorship</span>
+          <span class="service-tag">Live Projects</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Innovation -->
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-card-num">02</div>
+        <div class="service-card-icon">
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="50" height="50" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+            <path d="M26 8V44M8 26H44" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+            <path d="M14 14L38 38M38 14L14 38" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
+            <circle cx="26" cy="26" r="12" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="26" cy="26" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="26" cy="26" r="2.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Innovation</h3>
+        <div class="service-card-sub">IP & Incubation</div>
+        <p>Developing proprietary intellectual property, future risk models, and AI governance frameworks. IDR's Innovation Lab incubates research that bridges the gap between emerging threats and deployable solutions.</p>
+        <div class="service-card-tags">
+          <span class="service-tag">AI Governance</span>
+          <span class="service-tag">Risk Models</span>
+          <span class="service-tag">R&D</span>
+          <span class="service-tag">IP Development</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Advisory -->
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-card-num">03</div>
+        <div class="service-card-icon">
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="50" height="50" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+            <rect x="10" y="10" width="32" height="32" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <rect x="16" y="16" width="20" height="20" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M16 26H36M26 16V36" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="22" y="22" width="8" height="8" fill="currentColor" opacity="0.3"/>
+          </svg>
+        </div>
+        <h3>Advisory</h3>
+        <div class="service-card-sub">Framework Implementation</div>
+        <p>Helping organisations design, implement, and mature digital risk frameworks including NIST CSF, ISO 27001, and NIS2. We embed practitioners directly into client environments for hands-on delivery.</p>
+        <div class="service-card-tags">
+          <span class="service-tag">NIST CSF</span>
+          <span class="service-tag">ISO 27001</span>
+          <span class="service-tag">NIS2</span>
+          <span class="service-tag">Assurance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     PIPELINE
+═══════════════════════════════════ -->
+<section id="pipeline">
+  <div class="section-inner">
+    <div class="pipeline-header">
+      <div class="reveal">
+        <div class="section-eyebrow">
+          <div class="section-eyebrow-line"></div>
+          <span>The IDR Model</span>
+        </div>
+        <h2 class="section-title">A Continuous<br><span class="accent">Cycle</span> of<br><span class="outline">Excellence.</span></h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-lead">
+          The IDR pipeline is not linear — it's a reinforcing cycle. Each cohort trains, deploys, feeds back real-world insights, and contributes to the next generation of frameworks and practitioners.
+        </p>
+      </div>
+    </div>
+
+    <div class="pipeline-steps reveal">
+      <div class="pipeline-step">
+        <div class="step-circle">
+          <div class="step-num">1</div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="step-label">Train</div>
+        <div class="step-desc">Rigorous academic + industry curriculum, live projects, real threat exposure</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-circle">
+          <div class="step-num">2</div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div class="step-label">Hire</div>
+        <div class="step-desc">Direct placement into regulated, high-consequence sector roles</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-circle">
+          <div class="step-num">3</div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3M6.343 6.343l-.707-.707M6.343 17.657l-.707.707M15.536 15.536l.707.707M12 9a3 3 0 100 6 3 3 0 000-6z"/>
+          </svg>
+        </div>
+        <div class="step-label">Innovate</div>
+        <div class="step-desc">Field insights fuel new IP, risk models, and governance frameworks</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-circle">
+          <div class="step-num">4</div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="step-label">Deploy</div>
+        <div class="step-desc">Validated frameworks deployed across organisations, feeding the next cohort</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     TRUST BAR
+═══════════════════════════════════ -->
+<section id="trust">
+  <div class="trust-inner">
+    <div class="trust-label">Aligned with</div>
+    <div class="trust-divider"></div>
+    <div class="trust-logos">
+      <div class="trust-logo-item">NIST CSF</div>
+      <div class="trust-logo-item">ISO 27001</div>
+      <div class="trust-logo-item">NIS2</div>
+      <div class="trust-logo-item">UK Cyber Essentials</div>
+      <div class="trust-logo-item">NCSC</div>
+      <div class="trust-logo-item">MITRE ATT&CK</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     COMMUNITY
+═══════════════════════════════════ -->
+<section id="community">
+  <div class="community-bg-text">RISK</div>
+  <div class="section-inner">
+    <div class="community-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">
+          <div class="section-eyebrow-line"></div>
+          <span>Who We Serve</span>
+        </div>
+        <h2 class="section-title">Built for the<br>People at the <span class="accent">Edge</span><br>of <span class="outline">Risk.</span></h2>
+        <p class="section-lead" style="margin-top:20px; margin-bottom:32px;">
+          IDR serves a growing community of students, early-career professionals, and seasoned practitioners operating in environments where digital risk decisions carry real consequence.
+        </p>
+        <div class="community-quote">
+          "The gap between academic frameworks and operational reality is where most risk programmes fail. IDR was built to close that gap permanently."
+          <cite>— IDR Advisory Board</cite>
+        </div>
+      </div>
+
+      <div class="community-cards reveal reveal-delay-2">
+        <div class="community-card">
+          <div class="community-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Students</h4>
+            <p>Final-year and postgraduate students seeking structured pathways into digital risk, cyber, and technology governance careers — with a credential that means something.</p>
+          </div>
+        </div>
+        <div class="community-card">
+          <div class="community-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Early-Career Professionals</h4>
+            <p>Those 1–5 years into IT, compliance, or security roles looking to specialise in digital risk and gain frameworks exposure in regulated sectors like financial services.</p>
+          </div>
+        </div>
+        <div class="community-card">
+          <div class="community-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M20 21a8 8 0 10-16 0"/>
+              <path d="M16 8h6M19 5v6"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Senior Practitioners</h4>
+            <p>Experienced professionals in financial services, critical infrastructure, or healthcare seeking to upskill in AI risk governance, NIS2 compliance, and emerging threat disciplines.</p>
+          </div>
+        </div>
+        <div class="community-card">
+          <div class="community-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Organisations</h4>
+            <p>Regulated entities — banks, utilities, healthcare systems — seeking to hire trained risk practitioners or engage advisory services for framework implementation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     CONTACT
+═══════════════════════════════════ -->
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line"></div>
+        <span>Get Involved</span>
+      </div>
+      <h2 class="section-title">Ready to Train,<br>Hire, or <span class="accent">Partner</span><br><span class="outline">With Us?</span></h2>
+      <p class="section-lead">Whether you're a prospective student, an organisation looking to hire, or an academic partner — register your interest and our team will be in touch within 48 hours.</p>
+
+      <div style="margin-top:40px;">
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">Email</div>
+            <div class="contact-detail-value">hello@instituteofdigitalrisk.com</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">Base</div>
+            <div class="contact-detail-value">United Kingdom — Remote & On-Site</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">Response</div>
+            <div class="contact-detail-value">Within 48 hours on business days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-title">Register Interest</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fname">First Name</label>
+          <input class="form-input" type="text" id="fname" name="fname" placeholder="Your first name" required autocomplete="given-name" aria-describedby="fnameError">
+          <div class="field-error" id="fnameError">Please enter your first name.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lname">Last Name</label>
+          <input class="form-input" type="text" id="lname" name="lname" placeholder="Your last name" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="you@organisation.com" required autocomplete="email" aria-describedby="emailError">
+        <div class="field-error" id="emailError">Please enter a valid work email.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="interest">I am interested as a</label>
+        <select class="form-input" id="interest" name="interest" required aria-describedby="interestError" style="cursor:pointer;">
+          <option value="">Select your role...</option>
+          <option>Student / Graduate</option>
+          <option>Early-Career Professional</option>
+          <option>Senior Practitioner</option>
+          <option>Organisation / Employer</option>
+          <option>Academic Partner</option>
+          <option>Other</option>
+        </select>
+        <div class="field-error" id="interestError">Please choose your role.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="message">Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your interest or what you're looking for..." aria-describedby="messageHint"></textarea>
+        <div class="field-error" id="messageHint" style="display:block;color:var(--text-dim);text-transform:none;letter-spacing:0.4px;font-family:var(--font-body);font-size:12px;margin-top:8px;">Optional: include timeline, hiring needs, or programme goals.</div>
+      </div>
+      <button class="form-submit" onclick="submitForm()">Submit Registration →</button>
+      <div class="form-note">Your data is handled in accordance with our Privacy Policy. No spam, ever.</div>
+      <div class="form-success" id="formSuccess" role="status" aria-live="polite">✓ &nbsp; Registration received — we'll be in touch within 48 hours.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     FOOTER
+═══════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="footer-brand-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="32" height="32">
+            <rect width="60" height="60" fill="#161616" rx="6"/>
+            <polygon points="30,9 45,17 30,25 15,17" fill="#FF6B1A"/>
+            <polygon points="15,17 30,25 30,42 15,34" fill="#CC4A00"/>
+            <polygon points="30,25 45,17 45,34 30,42" fill="#FF8C42"/>
+            <polygon points="50,11 55,14 52,9" fill="#FF6B1A" opacity="0.9"/>
+          </svg>
+          <div class="footer-brand-idr">IDR</div>
+        </a>
+        <p class="footer-tagline">Institute of Digital Risk — training and deploying the next generation of digital risk practitioners.</p>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);">TRAIN · DEPLOY · INNOVATE</div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Institute</h5>
+        <ul class="footer-links">
+          <li><a href="#about">About IDR</a></li>
+          <li><a href="#pipeline">Our Model</a></li>
+          <li><a href="#community">Community</a></li>
+          <li><a href="#contact">Partnerships</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul class="footer-links">
+          <li><a href="#services">IDR Academy</a></li>
+          <li><a href="#services">Innovation Lab</a></li>
+          <li><a href="#services">Advisory Services</a></li>
+          <li><a href="#contact">Hire Talent</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Frameworks</h5>
+        <ul class="footer-links">
+          <li><a href="#services">NIST CSF</a></li>
+          <li><a href="#services">ISO 27001</a></li>
+          <li><a href="#services">NIS2</a></li>
+          <li><a href="#services">AI Governance</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Institute of Digital Risk. All rights reserved.</div>
+      <div class="footer-badge">
+        Built with <span>▲</span> for the risk community
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════ -->
+<script>
+/* ── CURSOR ── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+(function animateRing() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animateRing);
+})();
+
+document.querySelectorAll('a, button, .service-card, .community-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+});
+
+/* ── NAV SCROLL ── */
+const navbar = document.getElementById('navbar');
+const mobileNav = document.getElementById('mobileNav');
+const hamburgerBtn = document.getElementById('hamburger');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── HAMBURGER ── */
+function toggleMenu(forceOpen) {
+  const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !mobileNav.classList.contains('open');
+  mobileNav.classList.toggle('open', shouldOpen);
+  hamburgerBtn.setAttribute('aria-expanded', String(shouldOpen));
+  mobileNav.setAttribute('aria-hidden', String(!shouldOpen));
+}
+
+function closeMenu() {
+  toggleMenu(false);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMenu();
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 1024) closeMenu();
+});
+
+/* ── SCROLL REVEAL ── */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+reveals.forEach(r => observer.observe(r));
+
+/* ── MOTION PREFERENCES ── */
+let reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let prefersReducedMotion = reducedMotionQuery.matches;
+
+function onReducedMotionChange(e) {
+  prefersReducedMotion = e.matches;
+  networkQuality = prefersReducedMotion ? 0.45 : 1;
+  initNodes();
+  if (!prefersReducedMotion) {
+    requestAnimationFrame(drawNetwork);
+    if (typeof window.startCubeAnimation === 'function') window.startCubeAnimation();
+  }
+}
+
+if (typeof reducedMotionQuery.addEventListener === 'function') {
+  reducedMotionQuery.addEventListener('change', onReducedMotionChange);
+} else if (typeof reducedMotionQuery.addListener === 'function') {
+  reducedMotionQuery.addListener(onReducedMotionChange);
+}
+
+/* ── HERO NETWORK CANVAS ── */
+const heroCanvas = document.getElementById('hero-canvas');
+const hCtx = heroCanvas.getContext('2d');
+let nodes = [], W, H;
+let networkQuality = prefersReducedMotion ? 0.45 : 1;
+let networkFpsEma = 60;
+let lastNetworkTs = 0;
+
+function resizeHero() {
+  W = heroCanvas.width = window.innerWidth;
+  H = heroCanvas.height = window.innerHeight;
+}
+resizeHero();
+window.addEventListener('resize', () => { resizeHero(); initNodes(); });
+
+function initNodes() {
+  nodes = [];
+  const count = Math.max(20, Math.floor((W * H) / 22000 * networkQuality));
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.3,
+      vy: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5
+    });
+  }
+}
+initNodes();
+
+function drawNetwork(ts = 0) {
+  if (lastNetworkTs) {
+    const dt = Math.max(1, ts - lastNetworkTs);
+    const fps = 1000 / dt;
+    networkFpsEma = networkFpsEma * 0.92 + fps * 0.08;
+
+    if (!prefersReducedMotion) {
+      let nextQuality = networkQuality;
+      if (networkFpsEma < 40) nextQuality = 0.55;
+      else if (networkFpsEma < 52) nextQuality = 0.75;
+      else if (networkFpsEma > 57) nextQuality = 1;
+      if (nextQuality !== networkQuality) {
+        networkQuality = nextQuality;
+        initNodes();
+      }
+    }
+  }
+  lastNetworkTs = ts;
+
+  hCtx.clearRect(0, 0, W, H);
+  const D = 140 * (networkQuality < 0.7 ? 0.9 : 1);
+  for (let i = 0; i < nodes.length; i++) {
+    const n = nodes[i];
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+
+    hCtx.beginPath();
+    hCtx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    hCtx.fillStyle = 'rgba(255,107,26,0.5)';
+    hCtx.fill();
+
+    for (let j = i + 1; j < nodes.length; j++) {
+      const m = nodes[j];
+      const dx = n.x - m.x, dy = n.y - m.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < D) {
+        hCtx.beginPath();
+        hCtx.moveTo(n.x, n.y);
+        hCtx.lineTo(m.x, m.y);
+        hCtx.strokeStyle = `rgba(255,107,26,${0.12 * (1 - dist/D)})`;
+        hCtx.lineWidth = 0.5;
+        hCtx.stroke();
+      }
+    }
+  }
+
+  if (!prefersReducedMotion) {
+    requestAnimationFrame(drawNetwork);
+  }
+}
+drawNetwork();
+
+/* ── 3D CUBE CANVAS ── */
+const cubeCanvas = document.getElementById('cube-canvas');
+if (cubeCanvas) {
+  const ctx = cubeCanvas.getContext('2d');
+  const CW = 380, CH = 380;
+  const CX = CW / 2;
+  const CY = CH / 2 - 12;
+  let cubePaused = false;
+  let cubeRunning = false;
+  let cubeFpsEma = 60;
+  let cubePerfLevel = prefersReducedMotion ? 0 : 2;
+  let lastCubeTs = 0;
+  function setupCubeCanvas() {
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    cubeCanvas.width = Math.round(CW * dpr);
+    cubeCanvas.height = Math.round(CH * dpr);
+    cubeCanvas.style.width = CW + 'px';
+    cubeCanvas.style.height = CH + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  setupCubeCanvas();
+  window.addEventListener('resize', setupCubeCanvas);
+  cubeCanvas.addEventListener('pointerenter', () => { cubePaused = true; });
+  cubeCanvas.addEventListener('pointerleave', () => { cubePaused = false; });
+
+  let angle = 0;
+
+  function project(x, y, z) {
+    // Isometric-ish projection
+    const cos30 = Math.cos(Math.PI / 6);
+    const sin30 = Math.sin(Math.PI / 6);
+    const cosa = Math.cos(angle);
+    const sina = Math.sin(angle);
+    // Rotate around Y axis
+    const rx = x * cosa - z * sina;
+    const ry2 = y;
+    const rz = x * sina + z * cosa;
+    // Project
+    const px = CX + (rx - rz) * cos30 * 1.1;
+    const py = CY + (rx + rz) * sin30 * 1.1 - ry2;
+    return { px, py };
+  }
+
+  const SIZE = 90;
+  const verts = [
+    [-SIZE, -SIZE, -SIZE], [ SIZE, -SIZE, -SIZE],
+    [ SIZE,  SIZE, -SIZE], [-SIZE,  SIZE, -SIZE],
+    [-SIZE, -SIZE,  SIZE], [ SIZE, -SIZE,  SIZE],
+    [ SIZE,  SIZE,  SIZE], [-SIZE,  SIZE,  SIZE],
+  ];
+
+  const faces = [
+    { v: [0,1,2,3], color: '#CC4A00' },  // back
+    { v: [4,5,6,7], color: '#FF8C42' },  // front
+    { v: [0,4,7,3], color: '#CC4A00' },  // left
+    { v: [1,5,6,2], color: '#FF8C42' },  // right
+    { v: [0,1,5,4], color: '#FF6B1A' },  // top
+    { v: [3,2,6,7], color: '#993200' },  // bottom
+  ];
+
+  const edges = [
+    [0,1], [1,2], [2,3], [3,0],
+    [4,5], [5,6], [6,7], [7,4],
+    [0,4], [1,5], [2,6], [3,7]
+  ];
+
+  function drawCube(ts = 0) {
+    cubeRunning = true;
+    if (lastCubeTs) {
+      const dtMs = Math.max(1, ts - lastCubeTs);
+      const fps = 1000 / dtMs;
+      cubeFpsEma = cubeFpsEma * 0.9 + fps * 0.1;
+      if (!prefersReducedMotion) {
+        if (cubeFpsEma < 40) cubePerfLevel = 0;
+        else if (cubeFpsEma < 52) cubePerfLevel = 1;
+        else if (cubeFpsEma > 57) cubePerfLevel = 2;
+      }
+    }
+    const dt = lastCubeTs ? Math.min((ts - lastCubeTs) / 1000, 0.05) : 1 / 60;
+    lastCubeTs = ts;
+
+    ctx.clearRect(0, 0, CW, CH);
+
+    if (cubePerfLevel >= 1) {
+      // Outer glow
+      const grad = ctx.createRadialGradient(CX, CY, 40, CX, CY, 180);
+      grad.addColorStop(0, 'rgba(255,107,26,0.06)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, CW, CH);
+    }
+
+    // Project all vertices
+    const proj = verts.map(([x,y,z]) => project(x,y,z));
+
+    // Sort faces by average Z (painter's algorithm)
+    const sorted = faces.map(f => {
+      const avgZ = f.v.reduce((s,i) => {
+        const [x,y,z] = verts[i];
+        const c = Math.cos(angle), s2 = Math.sin(angle);
+        return s + (x * s2 + z * c);
+      }, 0) / f.v.length;
+      return { ...f, avgZ };
+    }).sort((a,b) => a.avgZ - b.avgZ);
+
+    sorted.forEach(face => {
+      const pts = face.v.map(i => proj[i]);
+      ctx.beginPath();
+      ctx.moveTo(pts[0].px, pts[0].py);
+      pts.slice(1).forEach(p => ctx.lineTo(p.px, p.py));
+      ctx.closePath();
+      ctx.fillStyle = face.color;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,107,26,0.2)';
+      ctx.lineWidth = 1;
+      ctx.lineJoin = 'miter';
+      ctx.miterLimit = 4;
+      ctx.stroke();
+    });
+
+    // Final edge pass keeps silhouette and top edges visually crisp.
+    ctx.beginPath();
+    edges.forEach(([a, b], i) => {
+      const p1 = proj[a];
+      const p2 = proj[b];
+      if (i === 0) ctx.moveTo(p1.px, p1.py);
+      else ctx.moveTo(p1.px, p1.py);
+      ctx.lineTo(p2.px, p2.py);
+    });
+    ctx.strokeStyle = 'rgba(255,176,112,0.58)';
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    if (cubePerfLevel >= 2) {
+      // Orbit ring
+      ctx.beginPath();
+      ctx.ellipse(CX, CY, 155, 60, -0.2, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,107,26,0.08)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Rotation dot on orbit
+      const dotAngle = angle * 2;
+      const dotX = CX + Math.cos(dotAngle) * 155;
+      const dotY = CY + Math.sin(dotAngle) * 60 * Math.cos(-0.2);
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,107,26,0.6)';
+      ctx.fill();
+    }
+
+    const rotationSpeed = prefersReducedMotion ? 0.08 : 0.32;
+    if (!cubePaused) {
+      angle += rotationSpeed * dt;
+    }
+
+    if (!prefersReducedMotion) {
+      requestAnimationFrame(drawCube);
+    } else {
+      cubeRunning = false;
+    }
+  }
+
+  window.startCubeAnimation = function startCubeAnimation() {
+    if (!cubeRunning) requestAnimationFrame(drawCube);
+  };
+
+  drawCube();
+}
+
+/* ── FORM SUBMIT ── */
+function setFieldError(fieldId, hasError) {
+  const input = document.getElementById(fieldId);
+  const error = document.getElementById(fieldId + 'Error');
+  if (!input || !error) return;
+  input.classList.toggle('input-invalid', hasError);
+  error.style.display = hasError ? 'block' : 'none';
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+}
+
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const interest = document.getElementById('interest').value;
+  const validName = fname.length > 1;
+  const validEmail = isValidEmail(email);
+  const validInterest = !!interest;
+
+  setFieldError('fname', !validName);
+  setFieldError('email', !validEmail);
+  setFieldError('interest', !validInterest);
+
+  if (!validName || !validEmail || !validInterest) {
+    const firstInvalid = !validName ? 'fname' : (!validEmail ? 'email' : 'interest');
+    document.getElementById(firstInvalid).focus();
+    return;
+  }
+  const btn = document.querySelector('.form-submit');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Submitted';
+    document.getElementById('formSuccess').style.display = 'block';
+  }, 800);
+}
+
+/* ── SMOOTH ANCHOR OFFSET (for sticky nav) ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const top = target.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+The logo uses a cube-inspired geometric mark to communicate structure, layered risk, and resilience through balanced faces and a reinforced outer frame.
+Orange was selected as the primary accent to represent energy, alertness, and proactive risk awareness, while black and white keep the identity professional, high-contrast, and easy to read.
+The typography is clean and modern to match a tech and education positioning, with a clear hierarchy between the institution label and the core name "Digital Risk."
+The icon is intentionally simple and bold so it remains legible at favicon and mobile-header sizes without losing its core shape.

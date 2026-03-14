@@ -1,0 +1,21 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Institute of Digital Risk Icon</title>
+  <desc id="desc">Minimal geometric cube-inspired icon in orange, white and black representing structure, risk and resilience.</desc>
+
+  <rect width="256" height="256" rx="36" fill="#FFFFFF"/>
+
+  <!-- Outer geometric frame for strong small-size readability -->
+  <path d="M128 34L202 76.5V160.5L128 203L54 160.5V76.5L128 34Z" fill="#FFFFFF" stroke="#111111" stroke-width="10" stroke-linejoin="round"/>
+
+  <!-- Cube-inspired faces -->
+  <path d="M128 52L186 85.5V134L128 167.5L70 134V85.5L128 52Z" fill="#FF7A00"/>
+  <path d="M128 52L70 85.5V134L128 167.5V52Z" fill="#E76400"/>
+  <path d="M128 52L186 85.5V134L128 167.5V52Z" fill="#FF8D2A"/>
+
+  <!-- Structural white channels symbolizing controlled risk pathways -->
+  <path d="M128 68V151" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M83 94L128 118L173 94" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Protective outer stroke -->
+  <path d="M128 34L202 76.5V160.5L128 203L54 160.5V76.5L128 34Z" fill="none" stroke="#111111" stroke-width="8" stroke-linejoin="round"/>
+</svg>

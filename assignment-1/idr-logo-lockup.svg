@@ -1,0 +1,27 @@
+<svg width="920" height="240" viewBox="0 0 920 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Institute of Digital Risk Logo</title>
+  <desc id="desc">Cube-inspired geometric logo icon with text Institute of Digital Risk in a clean minimalist style.</desc>
+
+  <rect width="920" height="240" rx="24" fill="#FFFFFF"/>
+
+  <!-- Icon block -->
+  <g transform="translate(28,20)">
+    <rect width="200" height="200" rx="28" fill="#FFFFFF"/>
+
+    <path d="M100 20L164 56.5V129.5L100 166L36 129.5V56.5L100 20Z" fill="#FFFFFF" stroke="#111111" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M100 36L150 64.5V107.5L100 136L50 107.5V64.5L100 36Z" fill="#FF7A00"/>
+    <path d="M100 36L50 64.5V107.5L100 136V36Z" fill="#E76400"/>
+    <path d="M100 36L150 64.5V107.5L100 136V36Z" fill="#FF8D2A"/>
+
+    <path d="M100 50V123" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+    <path d="M61 72.5L100 94L139 72.5" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M100 20L164 56.5V129.5L100 166L36 129.5V56.5L100 20Z" fill="none" stroke="#111111" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Typography block -->
+  <g transform="translate(260,60)">
+    <text x="0" y="48" fill="#111111" font-family="Montserrat, Segoe UI, Arial, sans-serif" font-size="38" font-weight="600" letter-spacing="1.4">INSTITUTE OF</text>
+    <text x="0" y="116" fill="#FF7A00" font-family="Montserrat, Segoe UI, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="1.2">DIGITAL RISK</text>
+    <rect x="2" y="138" width="560" height="8" rx="4" fill="#111111"/>
+  </g>
+</svg>
